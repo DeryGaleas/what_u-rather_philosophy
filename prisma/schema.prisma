@@ -6,15 +6,24 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
 
-    @@index([name])
+
+
+model Question{
+    id Int  @id @default(autoincrement())
+    question String
+    choices Choice[] 
 }
+
+model Choice{
+    id Int @id @default(autoincrement())
+    questionParent Question? @relation(fields: [questionId], references: [id])
+    questionId Int?
+    choice String
+}   
+
+
